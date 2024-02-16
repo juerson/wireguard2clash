@@ -9,21 +9,32 @@ use std::{
 };
 
 const BASIC_INFO: &str = r#"port: 7890
-socks-port: 7891
 allow-lan: true
-mode: Rule
+mode: rule
 log-level: info
-external-controller: :9090
+unified-delay: true
+global-client-fingerprint: chrome
 dns:
-  enabled: true
-  nameserver:
-    - 119.29.29.29
+  enable: true
+  listen: :53
+  ipv6: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  default-nameserver:
     - 223.5.5.5
-  fallback:
     - 8.8.8.8
-    - 8.8.4.4
-    - tls://1.0.0.1:853
-    - tls://dns.google:853
+    - 1.1.1.1
+  nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+  fallback:
+    - https://1.0.0.1/dns-query
+    - tls://dns.google
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+    ipcidr:
+      - 240.0.0.0/4
 proxies:"#;
 const PROXY_GROUPS1: &str = r#"proxy-groups:
   - name: 节点选择
@@ -365,6 +376,61 @@ const RULES: &str = r#"rules:
   - DOMAIN-SUFFIX,bing.net,节点选择
   - DOMAIN-SUFFIX,bingapis.com,节点选择
   - DOMAIN-SUFFIX,bingforbusiness.com,节点选择
+  - DOMAIN,lf16-effectcdn.byteeffecttos-g.com,节点选择
+  - DOMAIN,lf16-pkgcdn.pitaya-clientai.com,节点选择
+  - DOMAIN,p16-tiktokcdn-com.akamaized.net,节点选择
+  - DOMAIN-SUFFIX,bytedapm.com,节点选择
+  - DOMAIN-SUFFIX,bytegecko-i18n.com,节点选择
+  - DOMAIN-SUFFIX,bytegecko.com,节点选择
+  - DOMAIN-SUFFIX,byteoversea.com,节点选择
+  - DOMAIN-SUFFIX,capcut.com,节点选择
+  - DOMAIN-SUFFIX,ibytedtos.com,节点选择
+  - DOMAIN-SUFFIX,ibyteimg.com,节点选择
+  - DOMAIN-SUFFIX,ipstatp.com,节点选择
+  - DOMAIN-SUFFIX,isnssdk.com,节点选择
+  - DOMAIN-SUFFIX,muscdn.com,节点选择
+  - DOMAIN-SUFFIX,musical.ly,节点选择
+  - DOMAIN-SUFFIX,sgpstatp.com,节点选择
+  - DOMAIN-SUFFIX,snssdk.com,节点选择
+  - DOMAIN-SUFFIX,tik-tokapi.com,节点选择
+  - DOMAIN-SUFFIX,tiktok.com,节点选择
+  - DOMAIN-SUFFIX,tiktokcdn-us.com,节点选择
+  - DOMAIN-SUFFIX,tiktokcdn.com,节点选择
+  - DOMAIN-SUFFIX,tiktokd.net,节点选择
+  - DOMAIN-SUFFIX,tiktokd.org,节点选择
+  - DOMAIN-SUFFIX,tiktokmusic.app,节点选择
+  - DOMAIN-SUFFIX,tiktokv.com,节点选择
+  - DOMAIN-KEYWORD,musical.ly,节点选择
+  - DOMAIN-KEYWORD,tiktok,节点选择
+  - PROCESS-NAME,com.zhiliaoapp.musically,节点选择
+  - DOMAIN,browser-intake-datadoghq.com,节点选择
+  - DOMAIN,static.cloudflareinsights.com,节点选择
+  - DOMAIN-SUFFIX,ai.com,节点选择
+  - DOMAIN-SUFFIX,algolia.net,节点选择
+  - DOMAIN-SUFFIX,api.statsig.com,节点选择
+  - DOMAIN-SUFFIX,auth0.com,节点选择
+  - DOMAIN-SUFFIX,cdn.cloudflare.net,节点选择
+  - DOMAIN-SUFFIX,challenges.cloudflare.com,节点选择
+  - DOMAIN-SUFFIX,chatgpt.livekit.cloud,节点选择
+  - DOMAIN-SUFFIX,client-api.arkoselabs.com,节点选择
+  - DOMAIN-SUFFIX,events.statsigapi.net,节点选择
+  - DOMAIN-SUFFIX,featuregates.org,节点选择
+  - DOMAIN-SUFFIX,host.livekit.cloud,节点选择
+  - DOMAIN-SUFFIX,identrust.com,节点选择
+  - DOMAIN-SUFFIX,intercom.io,节点选择
+  - DOMAIN-SUFFIX,intercomcdn.com,节点选择
+  - DOMAIN-SUFFIX,launchdarkly.com,节点选择
+  - DOMAIN-SUFFIX,oaistatic.com,节点选择
+  - DOMAIN-SUFFIX,oaiusercontent.com,节点选择
+  - DOMAIN-SUFFIX,observeit.net,节点选择
+  - DOMAIN-SUFFIX,poe.com,节点选择
+  - DOMAIN-SUFFIX,segment.io,节点选择
+  - DOMAIN-SUFFIX,sentry.io,节点选择
+  - DOMAIN-SUFFIX,stripe.com,节点选择
+  - DOMAIN-SUFFIX,turn.livekit.cloud,节点选择
+  - DOMAIN-KEYWORD,openai,节点选择
+  - IP-CIDR,24.199.123.28/32,节点选择
+  - IP-CIDR,64.23.132.171/32,节点选择
   - GEOIP,CN,DIRECT
   - MATCH,节点选择"#;
 fn main() -> io::Result<()> {
@@ -405,13 +471,13 @@ fn main() -> io::Result<()> {
         "162.159.193.0/24",
         "162.159.195.0/24",
     ];
-    let ports = vec![2408];
-    // let ports = vec![
-    //     500, 854, 859, 864, 878, 880, 890, 891, 894, 903, 908, 928, 934, 939, 942, 943, 945, 946,
-    //     955, 968, 987, 988, 1002, 1010, 1014, 1018, 1070, 1074, 1180, 1387, 1701, 1843, 2371, 2408,
-    //     2506, 3138, 3476, 3581, 3854, 4177, 4198, 4233, 4500, 5279, 5956, 7103, 7152, 7156, 7281,
-    //     7559, 8319, 8742, 8854, 8886,
-    // ];
+    // let ports = vec![2408];
+    let ports = vec![
+        500, 854, 859, 864, 878, 880, 890, 891, 894, 903, 908, 928, 934, 939, 942, 943, 945, 946,
+        955, 968, 987, 988, 1002, 1010, 1014, 1018, 1070, 1074, 1180, 1387, 1701, 1843, 2371, 2408,
+        2506, 3138, 3476, 3581, 3854, 4177, 4198, 4233, 4500, 5279, 5956, 7103, 7152, 7156, 7281,
+        7559, 8319, 8742, 8854, 8886,
+    ];
 
     // 定义一个计数器来计算content写入的个数(也就是proxies中最多写多少个节点)
     let mut content_count = 0;
