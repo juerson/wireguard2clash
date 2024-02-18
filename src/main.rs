@@ -8,33 +8,36 @@ use std::{
     str::FromStr,
 };
 
-const BASIC_INFO: &str = r#"port: 7890
-allow-lan: true
-mode: rule
+const BASIC_INFO: &str = r#"mode: rule
+socks-port: 7891
+port: 7890
+allow-lan: false
 log-level: info
-unified-delay: true
-global-client-fingerprint: chrome
+secret: ''
+external-controller: 127.0.0.1:9097
 dns:
   enable: true
   listen: :53
-  ipv6: true
+  ipv6: false
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   default-nameserver:
-    - 223.5.5.5
-    - 8.8.8.8
-    - 1.1.1.1
+  - 223.5.5.5
+  - 8.8.8.8
+  - 1.1.1.1
   nameserver:
-    - https://dns.alidns.com/dns-query
-    - https://doh.pub/dns-query
+  - https://dns.alidns.com/dns-query
+  - https://doh.pub/dns-query
   fallback:
-    - https://1.0.0.1/dns-query
-    - tls://dns.google
+  - https://1.0.0.1/dns-query
+  - tls://dns.google
   fallback-filter:
     geoip: true
     geoip-code: CN
     ipcidr:
-      - 240.0.0.0/4
+    - 240.0.0.0/4
+unified-delay: true
+global-client-fingerprint: chrome
 proxies:"#;
 const PROXY_GROUPS1: &str = r#"proxy-groups:
   - name: 节点选择
@@ -471,13 +474,13 @@ fn main() -> io::Result<()> {
         "162.159.193.0/24",
         "162.159.195.0/24",
     ];
-    // let ports = vec![2408];
-    let ports = vec![
-        500, 854, 859, 864, 878, 880, 890, 891, 894, 903, 908, 928, 934, 939, 942, 943, 945, 946,
-        955, 968, 987, 988, 1002, 1010, 1014, 1018, 1070, 1074, 1180, 1387, 1701, 1843, 2371, 2408,
-        2506, 3138, 3476, 3581, 3854, 4177, 4198, 4233, 4500, 5279, 5956, 7103, 7152, 7156, 7281,
-        7559, 8319, 8742, 8854, 8886,
-    ];
+    let ports = vec![2408];
+    // let ports = vec![
+    //     500, 854, 859, 864, 878, 880, 890, 891, 894, 903, 908, 928, 934, 939, 942, 943, 945, 946,
+    //     955, 968, 987, 988, 1002, 1010, 1014, 1018, 1070, 1074, 1180, 1387, 1701, 1843, 2371, 2408,
+    //     2506, 3138, 3476, 3581, 3854, 4177, 4198, 4233, 4500, 5279, 5956, 7103, 7152, 7156, 7281,
+    //     7559, 8319, 8742, 8854, 8886,
+    // ];
 
     // 定义一个计数器来计算content写入的个数(也就是proxies中最多写多少个节点)
     let mut content_count = 0;
