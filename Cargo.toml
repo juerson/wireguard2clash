@@ -21,7 +21,7 @@ name = "v2"
 path = "src/main v2.rs" # 生成13个代理组的源码
 
 # [[bin]]
-# name = "test"
+# name = "app"
 # path = "src/main v3(处理规则文件).rs" # 这个代码辅助生成rules规则(应用到5个代理组的源码中)
 
 [[bin]]

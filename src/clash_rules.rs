@@ -9811,5 +9811,6 @@ pub const RULES: &str = r#"rules:
   - DOMAIN-KEYWORD,yunpan,🎯 全球直连
   - DOMAIN-KEYWORD,Thunder,🎯 全球直连
   - DOMAIN-KEYWORD,XLLiveUD,🎯 全球直连
+  - DOMAIN-KEYWORD,-cn,🎯 全球直连
   - GEOIP,CN,🎯 全球直连
   - MATCH,🐟 漏网之鱼"#;

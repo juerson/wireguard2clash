@@ -97,9 +97,12 @@ fn main() -> io::Result<()> {
 
     // 定义一个计数器来计算content写入的个数(也就是proxies中最多写多少个节点)
     let mut content_count = 0;
-    let mut max_content_per_file: usize = ports.len() * 22; // 指定每个文件最多的 content 数量（这个是22个IP乘以端口向量的总数）
-    if max_content_per_file < 1024 {
-        max_content_per_file = 1024;
+    let mut max_nodes_per_file: usize = ports.len() * 10;
+    if max_nodes_per_file < 540 && ports.len() > 0 {
+        max_nodes_per_file = 540;
+    } else if ports.len() == 0 {
+        println!("ports为空，无法生成Clash配置文件");
+        return Ok(());
     }
 
     // 对于每个 CIDR，创建一个单独的文件，并写入相应内容
@@ -146,7 +149,7 @@ fn main() -> io::Result<()> {
                 let content = format!("  - {}", serde_json::to_string(&new_json_data).unwrap());
                 println!("{}", content);
 
-                if content_count >= max_content_per_file {
+                if content_count >= max_nodes_per_file {
                     content_count = 0; // 重置计数器
                     file_count += 1; // 切换到下一个文件
                 }
@@ -189,8 +192,8 @@ fn main() -> io::Result<()> {
                     eprintln!("Error writing to file: {}", err);
                     continue;
                 }
-                if content_count == max_content_per_file
-                    || ((last_ip == ip || content_count == max_content_per_file - 1)
+                if content_count == max_nodes_per_file
+                    || ((last_ip == ip || content_count == max_nodes_per_file - 1)
                         && port == &ports[ports.len() - 1])
                 {
                     // 将向量中的元素连接成一个字符串

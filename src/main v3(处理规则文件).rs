@@ -66,6 +66,7 @@ fn main() {
 
     // 对Vec进行排序
     rules_item_vec.sort();
+    rules_item_vec.push("DOMAIN-KEYWORD,-cn,🎯 全球直连".to_owned());
     rules_item_vec.push("GEOIP,CN,🎯 全球直连".to_owned());
     rules_item_vec.push("MATCH,🐟 漏网之鱼".to_owned());
     // 创建一个新的HashMap，并添加键值对
