@@ -15,15 +15,14 @@ serde = { version = "1.0", features = ["derive"] }
 # name = "v1"
 # path = "src/main v1.rs" # 最早开发哪个版本，规则和分组粗浅，能够使用
 
-
 [[bin]]
 name = "v2"
-path = "src/main v2.rs" # 生成13个代理组的源码
-
-# [[bin]]
-# name = "app"
-# path = "src/main v3(处理规则文件).rs" # 这个代码辅助生成rules规则(应用到5个代理组的源码中)
+path = "src/main v2.rs" # 生成13个代理组的源码（规则只要9万多行）
 
 [[bin]]
 name = "v3"
-path = "src/main.rs" # 生成5个代理组的源码
+path = "src/main.rs" # 生成5个代理组的源码（规则有17万多行，生成的配置文件体积比较大）
+
+# [[bin]]
+# name = "app"
+# path = "test/v3-处理规则文件.rs" # 这个代码辅助生成rules规则(应用到5个代理组的源码中)

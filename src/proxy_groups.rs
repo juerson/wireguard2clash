@@ -8,7 +8,7 @@ const NODE_SELECTION: &str = r#"  - name: 🔰 节点选择
 const AUTO_SELECTION: &str = r#"  - name: ♻️ 自动选择
     type: url-test
     url: http://www.gstatic.com/generate_204
-    interval: 300
+    interval: 1000
     proxies:
 "#;
 

@@ -292,7 +292,6 @@ pub const RULES: &str = r#"rules:
   - DOMAIN-SUFFIX,biz5.kankan.com,🛑 全球拦截
   - DOMAIN-SUFFIX,c.algovid.com,🛑 全球拦截
   - DOMAIN-SUFFIX,cms.laifeng.com,🛑 全球拦截
-  - DOMAIN-SUFFIX,da.mmarket.com,🛑 全球拦截
   - DOMAIN-SUFFIX,dotcounter.douyutv.com,🛑 全球拦截
   - DOMAIN-SUFFIX,g.uusee.com,🛑 全球拦截
   - DOMAIN-SUFFIX,gcdn.2mdn.net,🛑 全球拦截
@@ -9237,20 +9236,14 @@ pub const RULES: &str = r#"rules:
   - DOMAIN-SUFFIX,hdslb.com,🌏 国内媒体
   - DOMAIN,upos-hz-mirrorakam.akamaized.net,🌏 国内媒体
   - DOMAIN,apiintl.biliapi.net,🌏 国内媒体
-  - DOMAIN,intel-cache.m.iqiyi.com,🌏 国内媒体
-  - DOMAIN,intel-cache.video.iqiyi.com,🌏 国内媒体
-  - DOMAIN,intl-rcd.iqiyi.com,🌏 国内媒体
-  - DOMAIN,intl-subscription.iqiyi.com,🌏 国内媒体
-  - DOMAIN-SUFFIX,inter.iqiyi.com,🌏 国内媒体
-  - DOMAIN-SUFFIX,inter.ptqy.gitv.tv,🌏 国内媒体
-  - DOMAIN-SUFFIX,intl.iqiyi.com,🌏 国内媒体
+  - DOMAIN-SUFFIX,iqiyi.com,🌏 国内媒体
+  - DOMAIN-SUFFIX,iqiyipic.com,🌏 国内媒体
   - DOMAIN-SUFFIX,iq.com,🌏 国内媒体
-  - IP-CIDR,103.44.56.0/22,🌏 国内媒体,no-resolve
-  - IP-CIDR,118.26.120.0/24,🌏 国内媒体,no-resolve
-  - IP-CIDR,118.26.32.0/23,🌏 国内媒体,no-resolve
-  - IP-CIDR,223.119.62.225/28,🌏 国内媒体,no-resolve
-  - IP-CIDR,23.40.241.251/32,🌏 国内媒体,no-resolve
-  - IP-CIDR,23.40.242.10/32,🌏 国内媒体,no-resolve
+  - DOMAIN-SUFFIX,qy.net,🌏 国内媒体
+  - DOMAIN-SUFFIX,gitv.tv,🌏 国内媒体
+  - DOMAIN-SUFFIX,71.am,🌏 国内媒体
+  - DOMAIN-KEYWORD,qiyi,🌏 国内媒体
+  - DOMAIN,cache.video.iqiyi.com,🌏 国内媒体
   - DOMAIN-SUFFIX,api.mob.app.letv.com,🌏 国内媒体
   - DOMAIN-SUFFIX,v.smtcdns.com,🌏 国内媒体
   - DOMAIN-SUFFIX,vv.video.qq.com,🌏 国内媒体
@@ -9811,6 +9804,5 @@ pub const RULES: &str = r#"rules:
   - DOMAIN-KEYWORD,yunpan,🎯 全球直连
   - DOMAIN-KEYWORD,Thunder,🎯 全球直连
   - DOMAIN-KEYWORD,XLLiveUD,🎯 全球直连
-  - DOMAIN-KEYWORD,-cn,🎯 全球直连
   - GEOIP,CN,🎯 全球直连
   - MATCH,🐟 漏网之鱼"#;

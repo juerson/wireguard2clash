@@ -11,6 +11,9 @@ struct Data {
     value: Vec<String>,
 }
 
+/**
+ * 这个代码的作用，将rules_file_vec向量中的文件内容，按程序逻辑拼接成clash的rules的规则内容。（5个代理组）
+ */
 fn main() {
     let rules_file_vec = vec![
         "rules/direct.txt",  // 🎯 全球直连
@@ -67,8 +70,8 @@ fn main() {
     // 对Vec进行排序
     rules_item_vec.sort();
     rules_item_vec.push("DOMAIN-KEYWORD,-cn,🎯 全球直连".to_owned());
-    rules_item_vec.push("GEOIP,CN,🎯 全球直连".to_owned());
-    rules_item_vec.push("MATCH,🐟 漏网之鱼".to_owned());
+    // rules_item_vec.push("GEOIP,CN,🎯 全球直连".to_owned());
+    // rules_item_vec.push("MATCH,🐟 漏网之鱼".to_owned());
     // 创建一个新的HashMap，并添加键值对
     let mut data = HashMap::new();
     data.insert("rules", rules_item_vec);
@@ -76,7 +79,7 @@ fn main() {
     // 将HashMap转换为YAML格式的字符串
     let yaml_string = serde_yaml::to_string(&data).unwrap();
     // 分割字符串为行，然后在第二行及以后的每行前面添加两个空格，最后再把它们连接起来
-    let indented_yaml_string = yaml_string
+    let mut indented_yaml_string = yaml_string
         .lines()
         .enumerate()
         .map(|(i, line)| {
@@ -88,6 +91,8 @@ fn main() {
         })
         .collect::<Vec<_>>()
         .join("\n");
+    // 添加新规则
+    indented_yaml_string = format!("{}\n  - GEOIP,CN,🎯 全球直连\n  - MATCH,🐟 漏网之鱼",indented_yaml_string);
     // 将字符串写入到新的YAML文件
     std::fs::write("rules/clash_rules.yaml", indented_yaml_string).unwrap();
 }
